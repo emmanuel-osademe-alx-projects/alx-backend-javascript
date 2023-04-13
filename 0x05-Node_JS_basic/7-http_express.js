@@ -1,95 +1,63 @@
 const express = require('express');
-const fs = require('fs');
+
+const { readFile } = require('fs');
 
 const app = express();
 const port = 1245;
-const DB_FILE = process.argv.length > 2 ? process.argv[2] : '';
 
-/**
- * Counts the students in a CSV data file.
- * @param {String} dbPath The path to the CSV data file.
- */
-const countStudents = (dbPath) => new Promise((resolve, reject) => {
-  if (!dbPath) {
-    reject(new Error('Cannot load the database'));
-  }
-  if (dbPath) {
-    fs.readFile(dbPath, (err, data) => {
+function countStudents(fileName) {
+  const students = {};
+  const fields = {};
+  let length = 0;
+  return new Promise((resolve, reject) => {
+    readFile(fileName, (err, data) => {
       if (err) {
-        reject(new Error('Cannot load the database'));
-      }
-      if (data) {
-        const rParts = [];
-        const fileLines = data.toString('utf-8').trim().split('\n');
-        const studentGroups = {};
-        const dbFieldNames = fileLines[0].split(',');
-        const studentPropNames = dbFieldNames.slice(
-          0,
-          dbFieldNames.length - 1
-        );
-
-        for (const line of fileLines.slice(1)) {
-          const dbRecord = line.split(',');
-          const studentPropValues = dbRecord.slice(
-            0,
-            dbRecord.length - 1
-          );
-          const field = dbRecord[dbRecord.length - 1];
-          if (!Object.keys(studentGroups).includes(field)) {
-            studentGroups[field] = [];
+        reject(err);
+      } else {
+        let output = '';
+        const lines = data.toString().split('\n');
+        for (let i = 0; i < lines.length; i += 1) {
+          if (lines[i]) {
+            length += 1;
+            const field = lines[i].toString().split(',');
+            if (Object.prototype.hasOwnProperty.call(students, field[3])) {
+              students[field[3]].push(field[0]);
+            } else {
+              students[field[3]] = [field[0]];
+            }
+            if (Object.prototype.hasOwnProperty.call(fields, field[3])) {
+              fields[field[3]] += 1;
+            } else {
+              fields[field[3]] = 1;
+            }
           }
-          const studentEntries = studentPropNames.map((propName, idx) => [
-            propName,
-            studentPropValues[idx]
-          ]);
-          studentGroups[field].push(Object.fromEntries(studentEntries));
         }
-
-        const totalStudents = Object.values(studentGroups).reduce(
-          (pre, cur) => (pre || []).length + cur.length
-        );
-        rParts.push(`Number of students: ${totalStudents}`);
-        for (const [field, group] of Object.entries(studentGroups)) {
-          rParts.push([
-            `Number of students in ${field}: ${group.length}.`,
-            'List:',
-            group.map((student) => student.firstname).join(', ')
-          ].join(' '));
+        const l = length - 1;
+        output += `Number of students: ${l}\n`;
+        for (const [key, value] of Object.entries(fields)) {
+          if (key !== 'field') {
+            output += `Number of students in ${key}: ${value}. `;
+            output += `List: ${students[key].join(', ')}\n`;
+          }
         }
-        resolve(rParts.join('\n'));
+        resolve(output);
       }
     });
-  }
+  });
+}
+
+app.get('/', (request, response) => {
+  response.send('Hello Holberton School!');
 });
-
-app.get('/', (_, res) => {
-  res.send('Hello Holberton School!');
-});
-
-app.get('/students', (_, res) => {
-  const resParts = ['This is the list of our students'];
-
-  countStudents(DB_FILE)
-    .then((report) => {
-      resParts.push(report);
-      const resText = resParts.join('\n');
-      res.setHeader('Content-Type', 'text/plain');
-      res.setHeader('Content-Length', resText.length);
-      res.statusCode = 200;
-      res.write(Buffer.from(resText));
-    })
-    .catch((err) => {
-      resParts.push(err instanceof Error ? err.message : err.toString());
-      const resText = resParts.join('\n');
-      res.setHeader('Content-Type', 'text/plain');
-      res.setHeader('Content-Length', resText.length);
-      res.statusCode = 200;
-      res.write(Buffer.from(resText));
-    });
+app.get('/students', (request, response) => {
+  countStudents(process.argv[2].toString()).then((output) => {
+    response.send(['This is the list of our students', output].join('\n'));
+  }).catch(() => {
+    response.send('This is the list of our students\nCannot load the database');
+  });
 });
 
 app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
 });
 
 module.exports = app;
