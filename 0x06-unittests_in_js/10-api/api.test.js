@@ -1,5 +1,5 @@
 const {
-  expect,
+  expect
 } = require('chai');
 const request = require('request');
 
@@ -70,12 +70,12 @@ describe('CartPage', () => {
 describe('LoginPage', () => {
   it('should have the correct status code', () => {
     const formData = {
-      userName: 'Betty',
+      userName: 'Betty'
     };
     request.post({
       url: 'http://localhost:7865/login',
       body: formData,
-      json: true,
+      json: true
     }, (_error, res, _body) => {
       expect(res.statusCode).to.equal(200);
     });
@@ -83,12 +83,12 @@ describe('LoginPage', () => {
 
   it('should have the correct result with form data value', () => {
     const formData = {
-      userName: 'Betty',
+      userName: 'Betty'
     };
     request.post({
       url: 'http://localhost:7865/login',
       body: formData,
-      json: true,
+      json: true
     }, (_err, _res, body) => {
       expect(body).to.contain('Welcome Betty');
     });
@@ -96,12 +96,12 @@ describe('LoginPage', () => {
 
   it('should have the correct status with invalid get value', () => {
     const formData = {
-      username: 'Betty',
+      username: 'Betty'
     };
     request.post({
       url: 'http://localhost:7865/login',
       body: formData,
-      json: true,
+      json: true
     }, (_err, res, _body) => {
       expect(res.statusCode).to.equal(404);
     });
@@ -109,12 +109,12 @@ describe('LoginPage', () => {
 
   it('should have the correct content type', () => {
     const formData = {
-      userName: 'Betty',
+      userName: 'Betty'
     };
     request.post({
       url: 'http://localhost:7865/login',
       body: formData,
-      json: true,
+      json: true
     }, (_err, res, _body) => {
       expect(res.headers['content-type']).to.equal('text/html; charset=utf-8');
     });
@@ -122,12 +122,12 @@ describe('LoginPage', () => {
 
   it('should have the correct content length', () => {
     const formData = {
-      userName: 'Betty',
+      userName: 'Betty'
     };
     request.post({
       url: 'http://localhost:7865/login',
       body: formData,
-      json: true,
+      json: true
     }, (_err, res, _body) => {
       expect(res.headers['content-length']).to.equal('13');
     });
