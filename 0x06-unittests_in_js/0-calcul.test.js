@@ -2,7 +2,6 @@ const calculateNumber = require('./0-calcul');
 const assert = require('assert');
 
 describe('calculateNumber', function () {
-
   it('should return integer as sum with float and float', () => {
     assert.deepStrictEqual(calculateNumber(1.7, 2.3), 4);
   });
