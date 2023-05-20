@@ -9,6 +9,7 @@ const countStudents = (filePath) => new Promise((resolve, reject) => {
     if (err) {
       reject(new Error('Cannot load the database'));
     }
+
     if (data) {
       const fl = data
         .toString('utf-8')

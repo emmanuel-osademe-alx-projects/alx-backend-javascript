@@ -14,6 +14,7 @@ const countStudents = (filePath) => new Promise((resolve, reject) => {
   if (!filePath) {
     reject(new Error('Cannot load the database'));
   }
+
   if (filePath) {
     fs.readFile(filePath, (err, data) => {
       if (err) {
@@ -26,14 +27,14 @@ const countStudents = (filePath) => new Promise((resolve, reject) => {
         const dbfn = fl[0].split(',');
         const sNames = dbfn.slice(
           0,
-          dbfn.length - 1
+          dbfn.length - 1,
         );
 
         for (const line of fl.slice(1)) {
           const record = line.split(',');
           const studentPropValues = record.slice(
             0,
-            record.length - 1
+            record.length - 1,
           );
           const field = record[record.length - 1];
           if (!Object.keys(groups).includes(field)) {
@@ -41,20 +42,20 @@ const countStudents = (filePath) => new Promise((resolve, reject) => {
           }
           const entries = sNames.map((propName, idx) => [
             propName,
-            studentPropValues[idx]
+            studentPropValues[idx],
           ]);
           groups[field].push(Object.fromEntries(entries));
         }
 
         const total = Object.values(groups).reduce(
-          (pre, cur) => (pre || []).length + cur.length
+          (pre, cur) => (pre || []).length + cur.length,
         );
         reports.push(`Number of students: ${total}`);
         for (const [field, group] of Object.entries(groups)) {
           reports.push([
             `Number of students in ${field}: ${group.length}.`,
             'List:',
-            group.map((student) => student.firstname).join(', ')
+            group.map((student) => student.firstname).join(', '),
           ].join(' '));
         }
         resolve(reports.join('\n'));
@@ -66,18 +67,18 @@ const countStudents = (filePath) => new Promise((resolve, reject) => {
 const ROUTES = [
   {
     route: '/',
-    handler (_, res) {
+    handler(_, res) {
       const responseText = 'Hello Holberton School!';
 
       res.setHeader('Content-Type', 'text/plain');
       res.setHeader('Content-Length', responseText.length);
       res.statusCode = 200;
       res.write(Buffer.from(responseText));
-    }
+    },
   },
   {
     route: '/students',
-    handler (_, res) {
+    handler(_, res) {
       const responseParts = ['This is the list of our students'];
 
       countStudents(DB_FILE)
@@ -97,17 +98,13 @@ const ROUTES = [
           res.statusCode = 200;
           res.write(Buffer.from(responseText));
         });
-    }
-  }
+    },
+  },
 ];
 
 app.on('request', (req, res) => {
-  for (const routeHandler of ROUTES) {
-    if (routeHandler.route === req.url) {
-      routeHandler.handler(req, res);
-      break;
-    }
-  }
+  ROUTES.map((route) => (
+    (route.route === req.url) ? route.handler(req, res) : null));
 });
 
 app.listen(PORT, HOST, () => {
