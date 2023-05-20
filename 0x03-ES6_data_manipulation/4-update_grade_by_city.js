@@ -1,4 +1,4 @@
-export default function getStudentsByLocation(array, city, grad) {
+export default function getStudentsByLocation (array, city, grad) {
   return array
     .filter((i) => i.location === city)
     .map((student) => {

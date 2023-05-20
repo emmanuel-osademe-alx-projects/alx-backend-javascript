@@ -1,16 +1,16 @@
-"use strict";
+'use strict';
 /// <reference path="crud.d.ts"/>
 exports.__esModule = true;
-var CRUD = require("./crud");
-var row = {
-    firstName: "Guillaume",
-    lastName: "Salva"
+const CRUD = require('./crud');
+const row = {
+  firstName: 'Guillaume',
+  lastName: 'Salva'
 };
-var newRowID = CRUD.insertRow(row);
-var updatedRow = {
-    firstName: "Guillaume",
-    lastName: "Salva",
-    age: 23
+const newRowID = CRUD.insertRow(row);
+const updatedRow = {
+  firstName: 'Guillaume',
+  lastName: 'Salva',
+  age: 23
 };
 CRUD.updateRow(newRowID, updatedRow);
 CRUD.deleteRow(newRowID);

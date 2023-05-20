@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /// <reference path="subjects/Teacher.ts"/>
 /// <reference path="subjects/Subject.ts"/>
 /// <reference path="subjects/Cpp.ts"/>
@@ -10,9 +10,9 @@ exports.cpp = new Subjects.Cpp();
 exports.java = new Subjects.Java();
 exports.react = new Subjects.React();
 exports.cTeacher = {
-    firstName: "Betty",
-    lastName: "Holberton",
-    experienceTeachingC: 10
+  firstName: 'Betty',
+  lastName: 'Holberton',
+  experienceTeachingC: 10
 };
 console.log('C++');
 exports.cpp.teacher = exports.cTeacher;

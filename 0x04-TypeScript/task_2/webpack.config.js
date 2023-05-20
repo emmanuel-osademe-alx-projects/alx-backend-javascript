@@ -1,11 +1,11 @@
-const path = require("path");
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
-  entry: "./js/main.ts",
-  devtool: "inline-source-map",
+  entry: './js/main.ts',
+  devtool: 'inline-source-map',
   module: {
     rules: [
       {
@@ -18,20 +18,20 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: ['.tsx', '.ts', '.js']
   },
   devServer: {
-    contentBase: "./dist"
+    contentBase: './dist'
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: "Development"
+      title: 'Development'
     })
   ],
   output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist")
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
   }
 };

@@ -1,10 +1,10 @@
 /// <reference path="Teacher.ts"/>
-var Subjects;
+let Subjects;
 (function (Subjects) {
-    var Subject = /** @class */ (function () {
-        function Subject() {
-        }
-        return Subject;
-    }());
-    Subjects.Subject = Subject;
+  const Subject = /** @class */ (function () {
+    function Subject () {
+    }
+    return Subject;
+  }());
+  Subjects.Subject = Subject;
 })(Subjects || (Subjects = {}));
