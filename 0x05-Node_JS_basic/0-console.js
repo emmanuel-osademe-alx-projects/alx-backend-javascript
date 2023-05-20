@@ -1,6 +1,5 @@
-function displayMessage(data) {
+function displayMessage (data) {
   console.log(data);
 }
 
 module.exports = displayMessage;
-
