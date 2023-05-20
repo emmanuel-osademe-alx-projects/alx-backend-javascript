@@ -11,7 +11,7 @@ const countStudents = (filePath) => {
   if (!fs.statSync(filePath).isFile()) {
     throw new Error('Cannot load the database');
   }
-  
+
   const fl = fs
     .readFileSync(filePath, 'utf-8')
     .toString('utf-8')
@@ -25,8 +25,8 @@ const countStudents = (filePath) => {
     const studentRecord = line.split(',');
     const studentPropValues = studentRecord.slice(0, studentRecord.length - 1);
     const field = studentRecord[studentRecord.length - 1];
-    (!Object.keys(groups).includes(field)) && groups[field] = [];
-    
+    if (!Object.keys(groups).includes(field)) groups[field] = [];
+
     const studentEntries = sNames
       .map((propName, idx) => [propName, studentPropValues[idx]]);
     groups[field].push(Object.fromEntries(studentEntries));
