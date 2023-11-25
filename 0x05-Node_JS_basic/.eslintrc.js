@@ -1,7 +1,6 @@
 module.exports = {
   env: {
     browser: true,
-    commonjs: true,
     es2021: true,
   },
   extends: 'airbnb-base',
@@ -11,7 +10,7 @@ module.exports = {
         node: true,
       },
       files: [
-        '.eslintrc.{js,cjs}',
+        '.eslintrc.{js}',
       ],
       parserOptions: {
         sourceType: 'script',

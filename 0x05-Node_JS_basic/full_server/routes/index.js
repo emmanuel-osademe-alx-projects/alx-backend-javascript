@@ -13,4 +13,4 @@ const mapRoutes = (app) => {
 };
 
 export default mapRoutes;
-module.exports = mapRoutes;
+// module.exports = mapRoutes;
